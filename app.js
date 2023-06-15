@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const connectDB = require('./config/db');
+
+require("dotenv").config({ path: "config/.env" });
 
 var indexRouter = require('./routes/index');
 var employeesRouter = require('./routes/employees');
@@ -20,6 +23,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/employees', employeesRouter);
 app.use('/payperiods', payperiodsRouter);
+
+// Connect to MongoDB
+connectDB();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
