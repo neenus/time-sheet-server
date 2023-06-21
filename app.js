@@ -1,24 +1,30 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const connectDB = require('./config/db');
+const cors = require('cors');
 
 require("dotenv").config({ path: "config/.env" });
 
-var indexRouter = require('./routes/index');
-var employeesRouter = require('./routes/employees');
-var payperiodsRouter = require('./routes/payperiods');
+const indexRouter = require('./routes/index');
+const employeesRouter = require('./routes/employees.routes');
+const payperiodsRouter = require('./routes/payperiods.routes');
 
-var app = express();
+const app = express();
 
+// Enable CORS
+const corsOptions = {
+  origin: process.env.FE_BASE_URL,
+  optionsSuccessStatus: 200
+};
 
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/employees', employeesRouter);
