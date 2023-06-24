@@ -6,6 +6,8 @@ const logger = require('morgan');
 const connectDB = require('./config/db');
 const cors = require('cors');
 
+const payperiodScheduler = require('./utils/payperiodScheduler');
+
 require("dotenv").config({ path: "config/.env" });
 
 const indexRouter = require('./routes/index');
@@ -32,6 +34,9 @@ app.use('/payperiods', payperiodsRouter);
 
 // Connect to MongoDB
 connectDB();
+
+// Start payperiod scheduler
+payperiodScheduler();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

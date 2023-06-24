@@ -1,26 +1,23 @@
 const mongoose = require('mongoose');
 
 const payperiodSchema = new mongoose.Schema({
-  year: {
+  start_date: {
+    type: Date,
+    required: true,
+  },
+  end_date: {
+    type: Date,
+    required: true,
+  },
+  period_num: {
     type: Number,
     required: true,
   },
-  payperiods: [
-    {
-      periodNum: {
-        type: Number,
-        required: true,
-      },
-      periodStart: {
-        type: Date,
-        required: true,
-      },
-      periodEnd: {
-        type: Date,
-        required: true,
-      },
-    },
-  ],
+  status: {
+    type: String,
+    enum: ['open', 'closed'],
+    default: 'open',
+  }
 });
 
 module.exports = mongoose.model('Payperiod', payperiodSchema);
